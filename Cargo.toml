@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["crates/app"]
+members = ["crates/app", "crates/math", "crates/window"]
 
 [workspace.package]
 edition = "2021"
@@ -24,3 +24,5 @@ incremental = true
 
 [workspace.dependencies]
 thiserror = "1.0"
+env_logger = "0.11"
+log = "0.4"
