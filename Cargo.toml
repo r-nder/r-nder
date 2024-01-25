@@ -1,0 +1,26 @@
+[workspace]
+resolver = "2"
+members = []
+
+[workspace.package]
+edition = "2021"
+license = "MIT OR Apache-2.0"
+rust-version = "1.71.0"
+version = "0.1.0"
+
+[profile.release]
+codegen-units = 1
+debug = false
+opt-level = 3
+# panic = "unwind"
+#lto = "fat"
+
+[profile.dev]
+# codegen-units = 16
+opt-level = 0
+lto = false
+debug = true
+incremental = true
+
+[workspace.dependencies]
+thiserror = "1.0"
