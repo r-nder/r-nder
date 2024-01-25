@@ -1,0 +1,12 @@
+[package]
+name = "math"
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+version.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+glam = { version = "0.25", features = ["bytemuck"] }
+serde = { version = "1", features = ["derive"], optional = true }
