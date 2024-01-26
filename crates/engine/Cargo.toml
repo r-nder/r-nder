@@ -15,3 +15,5 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 nannou = "0.19"
 nannou_egui = "0.19"
+# nannou_egui use egui with 0.23 version
+egui_dock = "0.8"

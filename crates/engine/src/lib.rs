@@ -1,18 +1,21 @@
-use nannou::{App, Frame, winit};
-use nannou::color::BLACK;
-use nannou::event::{Update, WindowEvent};
-use nannou::prelude::{WindowId};
+use egui_dock::egui::{Ui, WidgetText};
+use nannou::prelude::*;
+use nannou::winit;
 use nannou_egui::{Egui, egui};
+use nannou_egui::egui::Color32;
+use crate::editor::Editor;
 use crate::models::engine_settings::EngineSettings;
 
 pub mod boot;
 mod constant;
 mod models;
+mod editor;
 
 pub struct Engine {
     pub window_id: WindowId,
     pub egui: Egui,
     pub engine_settings: EngineSettings,
+    pub editor: Editor,
 }
 
 impl Engine {
@@ -21,6 +24,7 @@ impl Engine {
             window_id,
             egui,
             engine_settings: EngineSettings::default(),
+            editor: Editor::default(),
         }
     }
 }
@@ -40,25 +44,12 @@ impl Window for Engine {
         egui.set_elapsed_time(update.since_start);
         let ctx = egui.begin_frame();
 
-        egui::Window::new("Engine Settings").show(&ctx, |ui| {
-            let mut changed = false;
-
-            changed |= ui.add(egui::Slider::new(&mut engine_settings.age, 0.0..=20.0).text("Age"))
-                .changed();
-
-            if changed {
-                println!("Age changed to {}", engine_settings.age);
-            }
-        });
+        self.editor.update(&ctx);
     }
 
     fn raw_window_event(&mut self, _app: &App, event: &winit::event::WindowEvent) {
         Self::handle_raw_event_from_egui(_app, self, event);
     }
-}
-
-pub trait EguiRawWindowEvent {
-    fn handle_raw_event(_app: &App, event: &winit::event::WindowEvent);
 }
 
 pub trait Window {
