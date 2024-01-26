@@ -1,7 +1,7 @@
-use core::app::App;
+use core::app::MainApp;
 
 fn main() {
     println!("Hello, world!");
 
-    let app = App::init();
+    let app = MainApp::init();
 }

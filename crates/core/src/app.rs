@@ -1,68 +1,38 @@
-use window::window::WindowManager;
-use window::winit::{ElementState, Event, EventLoopWindowTarget, KeyCode, KeyEvent, PhysicalKey, WindowEvent, WindowId};
-use crate::window::Window;
+use nannou::prelude::*;
 
 pub const APP_NAME: &str = "R&nder";
+pub const APP_WIDTH: u32 = 1366;
+pub const APP_HEIGHT: u32 = 768;
 
-#[derive(Debug)]
-pub struct App {
+pub struct MainApp {
     pub window_id: WindowId,
-    pub windows: WindowManager,
 }
 
-impl App {
-    pub fn init() -> Self {
-        let event_handler = move |window: &Window, event: Event<()>, event_loop: &EventLoopWindowTarget<()>| {
-            match event {
-                Event::Resumed => {
-                    println!("Window resumed");
-                }
-                Event::WindowEvent {
-                    ref event,
-                    window_id,
-                } => {
-                    if window_id == window.id {
-                        match event {
-                            WindowEvent::CloseRequested => {
-                                on_close(event_loop);
-                            }
-                            WindowEvent::KeyboardInput {
-                                event: KeyEvent {
-                                    state: ElementState::Pressed,
-                                    physical_key: PhysicalKey::Code(KeyCode::KeyQ),
-                                    ..
-                                },
-                                ..
-                            } => {
-                                println!("Space was pressed");
-                            }
-                            _ => (),
-                        }
-                    }
-                }
-                _ => (),
-            }
-        };
+impl MainApp {
+    pub fn init() {
+        nannou::app(Self::model).run();
+    }
 
-        let window_name = format!("{} - {}", APP_NAME, "Engine");
-        let window = Window::new(event_handler, window_name);
-        let window_id = window.id;
+    fn model(app: &App) -> MainApp {
+        let window_id = app
+            .new_window()
+            .size(APP_WIDTH, APP_HEIGHT)
+            .title(APP_NAME)
+            .view(Self::view)
+            .event(Self::event)
+            .build()
+            .expect("Failed to create main window.");
 
-        let mut windows = WindowManager::default();
-        windows.add_window(window);
-
-        Self {
+        MainApp {
             window_id,
-            windows,
         }
     }
 
-    pub fn get_current_window(&self) -> Option<&Window> {
-        self.windows.get_window(&self.window_id)
+    fn event(app: &App, model: &mut MainApp, event: WindowEvent) {
+        println!("Event: {:?}", event);
     }
-}
 
-fn on_close(event_loop: &EventLoopWindowTarget<()>) {
-    println!("Window close requested");
-    event_loop.exit();
+    fn view(app: &App, model: &MainApp, frame: Frame) {
+        frame.clear(CORNFLOWERBLUE);
+    }
 }

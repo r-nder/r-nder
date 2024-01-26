@@ -9,3 +9,4 @@ version.workspace = true
 
 [dependencies]
 window = { path = "../window" }
+nannou = "0.19"
