@@ -1,7 +1,5 @@
-use core::app::MainApp;
+mod app;
 
 fn main() {
-    println!("Hello, world!");
-
-    let app = MainApp::init();
+    app::init();
 }

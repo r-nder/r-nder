@@ -1,5 +1,5 @@
 [package]
-name = "app"
+name = "engine"
 edition.workspace = true
 license.workspace = true
 rust-version.workspace = true
@@ -7,8 +7,11 @@ version.workspace = true
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[lib]
+name = "engine"
+path = "src/lib.rs"
+crate-type = ["cdylib", "rlib"]
+
 [dependencies]
-core = { path = "../core" }
-engine = { path = "../engine" }
-env_logger = "0.11"
-log = "0.4"
+nannou = "0.19"
+nannou_egui = "0.19"

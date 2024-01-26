@@ -6,7 +6,7 @@ members = [
     "crates/ecs",
     "crates/math",
     "crates/window"
-]
+, "crates/engine"]
 
 [workspace.package]
 edition = "2021"
