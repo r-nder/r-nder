@@ -41,11 +41,11 @@ pub fn random_range<T>(min: T, max: T) -> T
     where
         T: PartialOrd + distributions::uniform::SampleUniform,
 {
-    if min <= max {
+    let (min, max) = if min <= max {
         (min, max)
     } else {
         (max, min)
-    }
+    };
 
     thread_rng().gen_range(min..max)
 }
