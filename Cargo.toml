@@ -1,12 +1,18 @@
 [workspace]
 resolver = "2"
-members = ["crates/app"]
+members = [
+    "crates/editor",
+    "crates/core",
+    "crates/ecs",
+    "crates/math",
+    "crates/window"
+]
 
 [workspace.package]
 edition = "2021"
 license = "MIT OR Apache-2.0"
 rust-version = "1.77"
-version = "0.1.0"
+version = "0.2.10"
 
 [profile.release]
 codegen-units = 1
@@ -24,3 +30,5 @@ incremental = true
 
 [workspace.dependencies]
 thiserror = "1.0"
+env_logger = "0.11"
+log = "0.4"
