@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
 members = [
-    "crates/umble", "crates/umble_core",
+    "crates/umble", "crates/umble_core", "crates/umble_wgpu",
 ]
 
 [workspace.package]
