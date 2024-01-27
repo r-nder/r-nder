@@ -12,5 +12,15 @@ futures = "0.3"
 image = { version = "0.24", optional = true }
 instant = { version = "0.1.9", optional = true }
 num_cpus = { version = "1", optional = true }
-wgpu = "0.19"
-#wgpu_upstream = { version = "0.17.1", package = "wgpu" }
+wgpu_upstream = { version = "0.19", package = "wgpu" }
+
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+tokio = { version = "1", features = ["full"]}
+
+[features]
+capturer = ["image", "instant", "num_cpus"]
+replay = ["wgpu_upstream/replay"]
+serde = ["wgpu_upstream/serde"]
+spirv = ["wgpu_upstream/spirv"]
+trace = ["wgpu_upstream/trace"]
+webgl = ["wgpu_upstream/webgl"]
