@@ -33,5 +33,5 @@ impl<T> Scalar for T where
     + Neg<Output=Self>
 {}
 
-/// The default scalar type used for geometry throughout R&nder.
+/// The default scalar type used for geometry throughout umble.
 pub type Default = f32;
