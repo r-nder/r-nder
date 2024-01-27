@@ -1,1 +1,1 @@
-This the behavior of this crate is based on the **nannou** crate.
+The behavior of this crate is based on the **nannou** crate.
