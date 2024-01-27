@@ -1,12 +1,10 @@
 //! A mathematical foundation for umble including point and vector types and a range of
 //! helper/utility functions.
 
-pub mod vector;
+pub mod range;
 pub mod point;
 pub mod scalar;
-pub mod rect;
-pub mod range;
-pub mod vertex;
+pub mod vector;
 
 use core::ops::Add;
 use num_traits::{Float, NumCast, One};
@@ -47,7 +45,6 @@ pub trait Mat4LookTo {
         let f = dir.normalize();
         let s = f.cross(up).normalize();
         let u = s.cross(f);
-
         glam::Mat4::from_cols(
             glam::vec4(s.x, u.x, -f.x, 0.0),
             glam::vec4(s.y, u.y, -f.y, 0.0),
@@ -65,15 +62,12 @@ impl ConvertAngle for f32 {
     fn deg_to_rad(self) -> Self {
         self * core::f32::consts::TAU / ONE_TURN_DEGREES_F32
     }
-
     fn rad_to_deg(self) -> Self {
         self * ONE_TURN_DEGREES_F32 / core::f32::consts::TAU
     }
-
     fn turns_to_rad(self) -> Self {
         self * core::f32::consts::TAU
     }
-
     fn rad_to_turns(self) -> Self {
         self / core::f32::consts::TAU
     }
@@ -83,15 +77,12 @@ impl ConvertAngle for f64 {
     fn deg_to_rad(self) -> Self {
         self * core::f64::consts::TAU / ONE_TURN_DEGREES_F64
     }
-
     fn rad_to_deg(self) -> Self {
         self * ONE_TURN_DEGREES_F64 / core::f64::consts::TAU
     }
-
     fn turns_to_rad(self) -> Self {
         self * core::f64::consts::TAU
     }
-
     fn rad_to_turns(self) -> Self {
         self / core::f64::consts::TAU
     }
@@ -109,7 +100,6 @@ impl Vec2Rotate for glam::Vec2 {
         let rad_sin = radians.sin();
         let x = self.x * rad_cos - self.y * rad_sin;
         let y = self.x * rad_sin + self.y * rad_cos;
-
         glam::vec2(x, y)
     }
 }
