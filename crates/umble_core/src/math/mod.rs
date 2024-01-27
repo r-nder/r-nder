@@ -6,6 +6,7 @@ pub mod point;
 pub mod scalar;
 pub mod rect;
 pub mod range;
+pub mod vertex;
 
 use core::ops::Add;
 use num_traits::{Float, NumCast, One};
