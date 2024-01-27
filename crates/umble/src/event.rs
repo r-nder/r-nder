@@ -224,7 +224,7 @@ impl WindowEvent {
             winit::event::WindowEvent::HoveredFileCancelled => HoveredFileCancelled,
 
             winit::event::WindowEvent::Focused(b) => {
-                if b.clone() {
+                if *b {
                     Focused
                 } else {
                     Unfocused
@@ -243,12 +243,12 @@ impl WindowEvent {
             winit::event::WindowEvent::CursorLeft { .. } => MouseExited,
 
             winit::event::WindowEvent::MouseWheel { delta, phase, .. } => {
-                MouseWheel(delta.clone(), phase.clone())
+                MouseWheel(*delta, *phase)
             }
 
             winit::event::WindowEvent::MouseInput { state, button, .. } => match state {
-                ElementState::Pressed => MousePressed(button.clone()),
-                ElementState::Released => MouseReleased(button.clone()),
+                ElementState::Pressed => MousePressed(*button),
+                ElementState::Released => MouseReleased(*button),
             },
 
             winit::event::WindowEvent::Touch(
@@ -263,9 +263,9 @@ impl WindowEvent {
                 let y = ty(y);
                 let position = [x, y].into();
                 let touch = TouchEvent {
-                    phase: phase.clone(),
+                    phase: *phase,
                     position,
-                    id: id.clone(),
+                    id: *id,
                 };
                 Touch(touch)
             }
@@ -275,9 +275,9 @@ impl WindowEvent {
                 pressure,
                 stage,
             } => TouchPressure(TouchpadPressure {
-                device_id: device_id.clone(),
-                pressure: pressure.clone(),
-                stage: stage.clone(),
+                device_id: *device_id,
+                pressure: *pressure,
+                stage: *stage,
             }),
 
             winit::event::WindowEvent::KeyboardInput { event, .. } => {
@@ -343,14 +343,14 @@ impl LoopEvent for Event {
                 let simple =
                     WindowEvent::from_winit_window_event(event, win_w, win_h, scale_factor);
                 Event::WindowEvent {
-                    id: window_id.clone(),
+                    id: *window_id,
                     simple,
                     // TODO: Re-add this when winit#1387 is resolved.
                     // raw,
                 }
             }
             winit::event::Event::DeviceEvent { device_id, event } => {
-                Event::DeviceEvent(device_id.clone(), event.clone())
+                Event::DeviceEvent(*device_id, event.clone())
             }
             winit::event::Event::Suspended => Event::Suspended,
             winit::event::Event::Resumed => Event::Resumed,
