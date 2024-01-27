@@ -12,3 +12,4 @@ winit = "0.29"
 geom = "0.2.3"
 tokio = { version = "1.35", features = ["full"] }
 instant = "0.1"
+log = { version = "0.4.20", features = [] }

@@ -1,86 +1,31 @@
-use std::env;
-use std::fmt::format;
-use winit::dpi::LogicalSize;
-use winit::window::Fullscreen;
+pub use winit::window::WindowId as Id;
 
-// pub const DEFAULT_DIMENSIONS: LogicalSize<geom::scalar::Default> = LogicalSize {
-//     width: 1024.0,
-//     height: 768.0,
-// };
-
-pub struct Builder {
-    window: winit::window::WindowBuilder,
-    title_was_set: bool,
-}
-
+/// A nannou window.
+///
+/// The **Window** acts as a wrapper around the `winit::window::Window` and the `wgpu::Surface`
+/// types.
 #[derive(Debug)]
 pub struct Window {
-    pub(crate) window: winit::window::Window,
+    // pub(crate) window: winit::window::Window,
+    // pub(crate) surface: wgpu::Surface,
+    // pub(crate) surface_conf: wgpu::SurfaceConfiguration,
+    // pub(crate) device_queue_pair: Arc<wgpu::DeviceQueuePair>,
+    // msaa_samples: u32,
+    // pub(crate) frame_data: Option<FrameData>,
+    // pub(crate) frame_count: u64,
+    // pub(crate) user_functions: UserFunctions,
+    pub(crate) tracked_state: TrackedState,
+    // pub(crate) is_invalidated: bool, // Whether framebuffer must be cleared
+    // pub(crate) clear_color: wgpu::Color,
 }
 
-impl Builder {
-    pub fn new() -> Self {
-        Self {
-            window: winit::window::WindowBuilder::new(),
-            title_was_set: false,
-        }
-    }
-
-    pub fn window(mut self, window: winit::window::WindowBuilder) -> Self {
-        self.window = window;
-        self
-    }
-
-    pub fn build(self) {
-        let Builder {
-            mut window,
-            title_was_set,
-        } = self;
-
-        if !title_was_set {
-            if let Ok(exe_path) = env::current_exe() {
-                if let Some(os_str) = exe_path.file_stem() {
-                    if let Some(exe_name) = os_str.to_str() {
-                        let title = format!("Umble - {}", exe_name);
-                        window = window.with_title(title);
-                    }
-                }
-            }
-        }
-
-        // let initial_window_size = window
-        //     .window_attributes()
-        //     .inner_size.or_else(|| {
-        //     window.window_attributes()
-        //         .fullscreen().as_ref()
-        //         .and_then(|fullscreen| match fullscreen {
-        //             Fullscreen::Exclusive(video_mode) => {
-        //                 let monitor = video_mode.monitor();
-        //                 Some(
-        //                     video_mode
-        //                         .size()
-        //                         .to_logical::<f32>(monitor.scale_factor())
-        //                         .into()
-        //                 )
-        //             }
-        //             Fullscreen::Borderless(monitor) => monitor.as_ref().map(|monitor| {
-        //                 monitor
-        //                     .size()
-        //                     .to_logical::<f32>(monitor.scale_factor())
-        //                     .into()
-        //             })
-        //         })
-        // })
-        //     .unwrap_or_else(|| {
-        //         let mut dimension = DEFAULT_DIMENSIONS;
-        //
-        //         if let Some(min) = window.window_attributes().min_inner_size {
-        //             match min {
-        //                 winit::dpi::Size::Logical(min) => {
-        //                     dimension
-        //                 }
-        //             }
-        //         }
-        //     });
-    }
+// Track and store some information about the window in order to avoid making repeated internal
+// queries to the platform-specific API. This is beneficial in some cases where queries to the
+// platform-specific API can be very slow (e.g. macOS cocoa).
+#[derive(Debug)]
+pub(crate) struct TrackedState {
+    // Updated on `ScaleFactorChanged`.
+    pub(crate) scale_factor: f64,
+    // Updated on `Resized`.
+    pub(crate) physical_size: winit::dpi::PhysicalSize<u32>,
 }
